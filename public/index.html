@@ -14,30 +14,75 @@
         <main>
             <h1>Welcome</h1>
 
-            <h2>People</h2>
-            <button id="addperson"">Add Person</button>
-            <table id="peopletable">
+            <!-- Tab Buttons -->
+            <div class="tab-buttons">
+              <button class="tab-button active" data-tab="people-tab">People</button>
+              <button class="tab-button" data-tab="landlords-tab">Landlords</button>
+              <button class="tab-button" data-tab="buildings-tab">Buildings</button>
+            </div>
+
+            <!-- People Tab -->
+            <div id="people-tab" class="tab-content active">
+              <h2>People</h2>
+              <button id="addperson">Add Person</button>
+              <table id="peopletable">
+                  <thead>
+                      <tr>
+                          <th>Name</th>
+                          <th colspan="7">Schedule</th>
+                          <th>Action</th>
+                      </tr>
+                      <tr class="days">
+                          <th></th>
+                          <th class="day-1"></th>
+                          <th class="day-2"></th>
+                          <th class="day-3"></th>
+                          <th class="day-4"></th>
+                          <th class="day-5"></th>
+                          <th class="day-6"></th>
+                          <th class="day-7"></th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+              </table>
+            </div>
+
+            <!-- Landlords Tab -->
+            <div id="landlords-tab" class="tab-content">  
+
+              <h2>Landlords</h2>
+              <button id="addlandlord">Add Landlord</button>
+              <table id="landlordstable">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th colspan="7">Schedule</th>
-                        <th>Action</th>
-                    </tr>
-                    <tr class="days">
-                        <th></th>
-                        <th class="day-1"></th>
-                        <th class="day-2"></th>
-                        <th class="day-3"></th>
-                        <th class="day-4"></th>
-                        <th class="day-5"></th>
-                        <th class="day-6"></th>
-                        <th class="day-7"></th>
-                        <th></th>
-                    </tr>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
                 </thead>
-                <tbody>
-                </tbody>
-            </table>
+                <tbody></tbody>
+              </table>
+            </div>    
+
+            <!-- Buildings Tab -->
+            <div id="buildings-tab" class="tab-content">  
+
+              <h2>Buildings</h2>
+              <button id="addbuilding">Add Building</button>
+              <table id="buildingstable">
+                <thead>
+                  <tr>
+                    <th>Building Name</th>
+                    <th>City</th>
+                    <th>Landlord</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>    
         </main>
 
 <!--        <footer>
@@ -45,7 +90,7 @@
         </footer> -->
     </div>
 
-    <!-- Forms-->
+    <!-- Create Person Form -->
     <div id="personform" class="container" style="display: none;">
         <form>
             <h2>Person</h2>
@@ -66,6 +111,57 @@
           </form>
     </div>
 
+    <!-- Create Landlord Form -->
+    <div id="landlordform" class="container" style="display: none;">
+      <form>
+        <h2>Landlord</h2>
+        <div class="form-group">
+          <label for="landlordform-name">Name</label>
+          <input type="text" id="landlordform-name">
+        </div>
+        <div class="form-group">
+          <label for="landlordform-email">Email</label>
+          <input type="email" id="landlordform-email">
+        </div>
+        <button type="submit">Save</button>
+        <button class="close" type="button">Close</button>
+      </form>
+    </div>
+
+    <!-- Create Building Form -->
+    <div id="buildingform" class="container" style="display: none;">
+      <form>
+        <h2>Building</h2>
+        <div class="form-group">
+          <label for="buildingform-name">Building Name</label>
+          <input type="text" id="buildingform-name">
+        </div>
+        <div class="form-group">
+              <label for="buildingform-address">Address</label>
+              <textarea id="buildingform-address" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="buildingform-postalcode">Postal Code</label>
+          <input type="text" id="buildingform-postalcode">
+        </div>
+        <div class="form-group">
+          <label for="buildingform-city">City</label>
+          <input type="text" id="buildingform-city">
+        </div>
+        <div class="form-group">
+          <label for="buildingform-landlord_id">Landlord</label>
+          <select id="buildingform-landlord_id">
+            <option value="">Select a landlord</option>
+            <!-- Options will be populated dynamically -->
+          </select>
+        </div>
+        
+
+        
+        <button type="submit">Save</button>
+        <button class="close" type="button">Close</button>
+      </form>
+    </div>
 
     <div id="workflowform" class="container" style="display: none;">
         <form>

@@ -40,6 +40,8 @@ const server = http.createServer( async ( req, res ) => {
   const parsedurl = new URL( req.url, baseurl )
   const pathname = parsedurl.pathname
 
+
+
   let data = ""
   req.on( "data", ( chunk ) => {
     data += chunk

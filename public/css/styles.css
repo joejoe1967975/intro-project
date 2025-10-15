@@ -74,9 +74,7 @@ button {
   transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #38d430; /* Use brand color #38d430 for button hover */
-}
+
 
 table {
   width: 100%;
@@ -98,3 +96,106 @@ th {
   background-color: #f2f2f2;
 }
 
+
+/* Base styling for all tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Header styling */
+table thead tr th{
+  background-color: #1e3a5f; /* Navy */
+  color: white;
+}
+
+/* Alternating row colors */
+table tbody tr:nth-child(even) {
+  background-color: #f2f6fc; /* Light blue */
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White */
+}
+
+/* Header styling */
+table thead tr th{
+  background-color: #1e3a5f; /* Navy */
+  color: white;
+}
+
+/* People-specific styling */
+table thead {
+  background-color: #003366; /* Deep navy */
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #e6f0ff; /* Soft blue tint */
+}
+
+/* Optional: hover effect */
+table tbody tr:hover {
+  background-color: #d0e4ff;
+}
+
+/* Button styling inside tables */
+table button {
+  padding: 0.3em 0.6em;
+  background-color: #006ab4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+table button:hover {
+  background-color: #2a4d7c;
+}
+
+
+/* tab */
+.tab-button {
+  padding: 0.6em 1.2em;
+  margin-right: 0.5em;
+  cursor: pointer;
+  background-color: #e6f0ff; /* Soft blue tint */
+  border: 1px solid #006ab4; /* Match button border */
+  border-radius: 6px;
+  font-weight: bold;
+  color: #003366; /* Deep navy text */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tab-button:hover {
+  background-color: #d0e4ff; /* Hover blue */
+  color: #002244;
+}
+
+.tab-button.active {
+  background-color: #006ab4; /* Active tab matches main button */
+  color: white;
+  border-color: #006ab4;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* drop down menu */
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
+}

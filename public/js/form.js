@@ -1,6 +1,7 @@
 
 
 let formsubmitcallback
+let shouldCloseFormOnSubmit = true;
 document.addEventListener( "DOMContentLoaded", async function() {
 
   const closeelements = document.querySelectorAll( ".close" )
@@ -16,11 +17,14 @@ document.addEventListener( "DOMContentLoaded", async function() {
     element.addEventListener( "submit", ( e ) => {
       e.preventDefault()
 
-      document.getElementById( "content" ).style.display = "block"
-      // @ts-ignore (it is part of HTML Element)
-      element.parentNode.style.display = "none"
+      if (formsubmitcallback) formsubmitcallback();
 
-      if( formsubmitcallback ) formsubmitcallback()
+      if (shouldCloseFormOnSubmit) {
+        document.getElementById( "content" ).style.display = "block"
+        // @ts-ignore (it is part of HTML Element)
+        element.parentNode.style.display = "none"
+      }  
+      //if( formsubmitcallback ) formsubmitcallback()
     } )
   } )
 } )
@@ -40,13 +44,14 @@ function closallforms() {
  * Show form by id name
  * @param { string } formid 
  */
-export function showform( formid, onsubmit ) {
+export function showform( formid, onsubmit , closeOnSubmit = true) {
   document.getElementById( "content" ).style.display = "none"
 
   const form = document.getElementById( formid )
   form.style.display = "block"
 
   formsubmitcallback = onsubmit
+  shouldCloseFormOnSubmit = closeOnSubmit
 }
 
 /**
@@ -55,7 +60,7 @@ export function showform( formid, onsubmit ) {
  */
 export function getformfieldvalue( formitemid ) {
   // @ts-ignore (it does!)
-  return document.getElementById( formitemid ).value
+  return document.getElementById( formitemid ).value.trim()
 }
 
 /**

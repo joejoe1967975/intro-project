@@ -1,7 +1,20 @@
 {
+  "name": "intro-project",
+  "version": "1.0.0",
+  "description": "A simple Node.js project with Mocha tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "dev": "node index.js"
+  },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "chai": "^6.2.0",
     "eslint": "^8.57.1",
-    "globals": "^15.9.0"
+    "globals": "^15.9.0",
+    "mocha": "^11.7.4"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1"
   }
 }

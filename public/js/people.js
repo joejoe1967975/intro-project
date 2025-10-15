@@ -62,9 +62,16 @@ function addpersoninput() {
   clearform( "personform" )
   showform( "personform", async () => {
 
+    const name = getformfieldvalue("personform-name");
+    if (!name) {
+      alert("Name is required.");
+      return;
+    }
+
     await addperson( getformfieldvalue( "personform-name" ), 
                       getformfieldvalue( "personform-email" ), 
                       getformfieldvalue( "personform-notes" ) )
+    alert("Person added successfully!");
     await gopeople()
   } )
 }
@@ -76,9 +83,28 @@ function editperson( ev ) {
 
   clearform( "personform" )
   const personrow = findancestorbytype( ev.target, "tr" )
-  setformfieldvalue( "personform-name", personrow.person.name )
+  const person = personrow.person;
 
-  showform( "personform", () => console.log("submitted peopleform") )
+  setformfieldvalue( "personform-name", person.name )
+  setformfieldvalue( "personform-email", person.email )
+  setformfieldvalue( "personform-notes", person.notes )
+
+  showform( "personform", async () => {
+    //console.log("submitted peopleform") 
+
+    const name = getformfieldvalue("personform-name");
+    const email = getformfieldvalue("personform-email");
+    const notes = getformfieldvalue("personform-notes");
+
+    if (!name) {
+      alert("Name is required.");
+      return;
+    }
+
+    await updateperson(person.id, name, email, notes);
+    alert("Person updated!");
+    await gopeople();
+  });
 
 }
 
