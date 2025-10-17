@@ -40,6 +40,13 @@ export async function putdata( api, data ) {
   }
 
   const url = rooturl + api
-  await fetch( url, request )
+  const response = await fetch( url, request )
+
+  if (!response.ok) {
+    console.error("PUT request failed:", response.statusText);
+    return null;
+  }
+
+  return await response.json();
 }
 
