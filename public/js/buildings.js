@@ -4,11 +4,13 @@ import { findancestorbytype } from "./dom.js";
 
 let landlordMap = {};
 let currentBuildingId = null;
+let deletedRoomIds = [];
 
 /* add rooms */
 const roomSection = document.getElementById("room-section");
 const addRoomBtn = document.getElementById("add-room");
 const roomTableBody = document.querySelector("#room-table tbody");
+
 
 document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("addbuilding").addEventListener("click", addbuildinginput);
@@ -100,6 +102,7 @@ async function editbuilding(ev) {
   clearform("buildingform");
   cleartablerows("room-table");
 
+  deletedRoomIds = [];
   const buildingrow = findancestorbytype(ev.target, "tr");
   const building = buildingrow.building;
   currentBuildingId = building.id;
@@ -128,9 +131,10 @@ async function editbuilding(ev) {
     }
 
     await updatebuilding(building.id, name, address, postalcode, city, landlord_id);
+    alert('before saveRooms buildingId:' + building.id);
     await saveRooms(building.id);
 
-    alert("Building and rooms updated!");
+    alert("Building and rooms updated!!!");
 
     await gobuildings();
 
@@ -200,17 +204,38 @@ async function hideRoomSection(buildingId) {
 
 /* Add Room section */
 async function saveRooms(buildingId) {
+  // Delete removed rooms
+  for (const roomId of deletedRoomIds) {
+    await deleteRoomFromDB(roomId);
+  }
+  deletedRoomIds = []; // Reset after deletion
+
   const rows = roomTableBody.querySelectorAll("tr");
   for (const row of rows) {
-    const roomName = row.querySelector(".room-name").value.trim();
+    const input = row.querySelector("input");
+    const roomName = input.value.trim();
+    const roomId = input.dataset.roomId;
+
     if (roomName) {
-      await saveRoomToDB({ name: roomName, building_id: buildingId });
+      const roomData = { name: roomName, building_id: buildingId };
+      if (roomId) {
+        roomData.id = roomId; // Update existing room
+      }
+      await saveRoomToDB(roomData);
     }
   }
 }
 
 async function saveRoomToDB(room) {
-  await putdata("rooms", room);
+  if (room.id) {
+    await fetch(`/api/rooms/${room.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(room)
+    });
+  } else {
+    await putdata("rooms", room); // Create new room
+  }
 }
 
 addRoomBtn.addEventListener("click", () => {
@@ -224,11 +249,30 @@ addRoomBtn.addEventListener("click", () => {
   roomTableBody.appendChild(row);
 });
 
+
 roomTableBody.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-room")) {
-    e.target.closest("tr").remove();
+    const row = e.target.closest("tr");
+    const input = row.querySelector("input");
+    const roomId = input.dataset.roomId;
+    if (roomId) {
+      deletedRoomIds.push(roomId); // Track for deletion
+    }
+    row.remove(); // Remove from UI
   }
 });
+
+
+async function deleteRoomFromDB(roomId) {
+  console.log("Sending DELETE for room:", roomId);
+  const response = await fetch(`/api/rooms/${roomId}`, { method: "DELETE" });
+  console.log("DELETE response status:", response.status);
+  if (!response.ok) {
+    alert("Failed to delete room " + roomId);
+  }
+}
+
+
 
 async function loadRooms(buildingId) {
   const response = await fetch(`/api/rooms?building_id=${buildingId}`);
@@ -242,12 +286,14 @@ async function loadRooms(buildingId) {
     // Example: adjust based on your room schema
     row.innerHTML = `
       <td><input type="text" value="${room.name}" data-room-id="${room.id}" class="room-name-input" /></td>
-      <td><button onclick="deleteroom(${room.id})">Delete</button></td>
+      <td><button type="button" class="delete-room">Delete</button></td>
     `;
 
-    document.getElementById("room-table").appendChild(row);
+    roomTableBody.appendChild(row)
   }
 }
+
+
 
 
 
